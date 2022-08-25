@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Profile from "./Profile";
+import Data from "./Data";
+import commentdata from "./commentdata";
+import Comments from "./Comments";
 
-function App() {
+const App = () => {
+  const [active, setActive] = useState("");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <body>
+      <navbar className="nav">
+        <button onClick={() => setActive("profile")}>profile</button>
+        <button onClick={() => setActive("comment")}>Comments</button>
+        <button onClick={() => setActive("")}>Hide</button>
+      </navbar>
+      <section className="post-container">
+        {active === "profile" &&
+          Data.map((eachObj) => {
+            const { id, title, thumbnailUrl, url } = eachObj;
+            return (
+              <Profile
+                key={id}
+                id={id}
+                title={title}
+                thumbnailUrl={thumbnailUrl}
+                url={url}
+              />
+            );
+          })}
+      </section>
+      <section className="container">
+        {active === "comment" &&
+          commentdata.map((eachElement) => {
+            const { id, name, email, body } = eachElement;
+            return <Comments id={id} name={name} email={email} body={body} />;
+          })}
+      </section>
+    </body>
   );
-}
+};
 
 export default App;
